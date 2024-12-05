@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     private Vehicle vehicle;
+    
+    public TMP_Text speedText;
 
     private void Start()
     {
@@ -17,5 +21,12 @@ public class PlayerController : MonoBehaviour
         bool nitro = Input.GetKey(KeyCode.LeftShift);
 
         vehicle.ApplyInput(throttle, steering, handbrake, nitro);
+        
+        speedText.text = $"Speed: {vehicle.currentSpeed:0.0} km/s";
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
     }
 }

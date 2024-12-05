@@ -20,7 +20,6 @@ public class Vehicle : MonoBehaviour
     private Rigidbody rb;
     private bool isHandbraking = false;
 
-    public TMP_Text speedText;
 
     // Upgrade management
     public int MaxSlots = 3;
