@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         vehicle = GetComponent<Vehicle>();
+        if(speedText == null)
+            speedText = GameObject.Find("SpeedText").GetComponent<TMP_Text>();
     }
 
     private void Update()

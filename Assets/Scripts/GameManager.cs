@@ -4,6 +4,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
+    public GameObject terrainMap;
     
     // Delegate event for start race
     public delegate void StartRaceDelegate();

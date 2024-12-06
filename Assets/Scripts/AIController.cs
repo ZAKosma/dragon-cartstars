@@ -7,7 +7,7 @@ public class AIController : MonoBehaviour
 {
     public AIMode aiMode;
     public Transform[] checkpoints; // Assigned in Racer mode
-    public Transform wanderArea; // Assigned in Wanderer mode
+    private Terrain terrain; // Assigned in Wanderer mode
 
     private Vehicle vehicle;
     private int currentCheckpointIndex = 0;
@@ -16,6 +16,11 @@ public class AIController : MonoBehaviour
     private void Start()
     {
         vehicle = GetComponent<Vehicle>();
+
+        if (terrain == null)
+        {
+            terrain = GameManager.instance.terrainMap.transform.GetComponent<Terrain>();
+        }
 
         if (aiMode == AIMode.Wanderer)
         {
@@ -73,10 +78,19 @@ public class AIController : MonoBehaviour
 
     private void SetNewWanderTarget()
     {
-        wanderTarget = new Vector3(
-            Random.Range(wanderArea.position.x - wanderArea.localScale.x / 2, wanderArea.position.x + wanderArea.localScale.x / 2),
-            transform.position.y,
-            Random.Range(wanderArea.position.z - wanderArea.localScale.z / 2, wanderArea.position.z + wanderArea.localScale.z / 2)
-        );
+        // Get the terrain boundaries
+        Vector3 terrainPosition = terrain.transform.position;
+        Vector3 terrainSize = terrain.terrainData.size;
+
+        // Generate random X and Z positions within the terrain bounds
+        float randomX = Random.Range(terrainPosition.x, terrainPosition.x + terrainSize.x);
+        float randomZ = Random.Range(terrainPosition.z, terrainPosition.z + terrainSize.z);
+
+        // Get the terrain height at the random point
+        float height = terrain.SampleHeight(new Vector3(randomX, 0, randomZ));
+
+        // Set the wander target to this point
+        wanderTarget = new Vector3(randomX, height + terrainPosition.y, randomZ);
     }
+
 }
